@@ -1,0 +1,199 @@
+<div class="container-fluid dashboard-content" #datatable  id="content">
+    <div class="page-header">
+        <h2>Fire and Smoke Violations</h2>
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- INPUTS -->
+    <!-- ============================================================== -->
+      <div class="row mx-auto mt-3 mb-3" id="content">
+        <div class="col-xl-2 col-sm-12 col-lg-6 col-xs-12 col-md-6 mb-3">
+            <div class="dl-date-time-picker">
+                <div class="datePickerContainer" (click)="openDatePicker($event)">
+                    <span>
+                         <input type="text" [showCustomRangeLabel]="true" ngxDaterangepickerMd    #datepicker   
+                            [ranges]="ranges" [(ngModel)]="selected"   [timePicker]="true" placeholder="Select Date"
+                            required  id="dateInput" class="form-control" (click) = "applyDateRange()" />
+                            <!-- (click) = "inputdata()" -->
+                        </span>
+                        <span class="input-group-append">
+                            <button   class="ngx-daterangepicker-action btn default"   type="button"  title="icon">
+                                <fa-icon icon="calendar" class="ngx-daterangepicker-action"(click)="openDatePicker($event)"></fa-icon>
+                            </button>
+                        </span>
+                    
+<!-- 
+                <span>
+                    <input type="text"  placeholder="Select Date"
+                    required  id="dateInput" class="form-control" (click)="applyDateRange()" /></span>
+             -->
+
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xl-2 col-xs-12 col-sm-12 col-md-6 col-lg-6 mb-3">
+            <div class="row">
+                      <p-treeSelect  containerStyleClass="w-full" [ngModelOptions] ="{standalone: true}"  containerStyleClass="w-full" [(ngModel)]="selectedItems" (onNodeSelect)="onCameraIdSelect($event)"  [options]="dropdownList|async" placeholder="Select Camera"></p-treeSelect>
+            </div>
+        </div>
+
+
+        <div class="col-xl-3 col-sm-12 col-lg-12 col-xs-12 col-md-12 mb-3">
+                <button class="btn default text-white me-3 ms-1" style="width:80px">
+               <span>Submit</span>
+                <!-- <span class="spinner-border spinner-border-sm"   ></span> -->
+                </button>&nbsp;
+
+                <button type="submit" class="btn default text-white me-3">
+                    <fa-icon icon="download" class="ms-1 me-1" style="cursor: pointer;" ></fa-icon>
+                    <!-- <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"
+                    ></span> -->
+                    Excel 
+                </button>&nbsp;
+               
+         </div>
+
+
+
+               <div class="row">
+                  <div class="col-12">
+                    <div class="card" id="data-card">
+                         <div class="card-header">
+                            <!-- Violation Data -->
+
+
+                           
+                            <!-- <div class="container">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="centered-container" > -->
+                             
+                          
+                            
+                                    <button class="btn default-outline me-2 float-start"  style="width:7%"
+                                         placement="bottom" >
+                                     <!-- <fa-icon icon="bell"  class="me-1 me-md-2"></fa-icon> -->
+                                        <fa-icon icon="bell-slash"  class="me-1"></fa-icon>
+                                    </button>&nbsp;
+
+                                    <button class="btn default-outline float-start me-2"  style="width:7%"
+                                         placement="bottom" >
+                                     <!-- <fa-icon icon="volume-up"  class="me-1 me-md-2"></fa-icon> -->
+                                         <fa-icon icon="volume-off"  class="me-1"></fa-icon>
+                                    </button>&nbsp;
+
+
+                       
+                                <!-- </div>
+                            </div>
+                         </div>
+                    </div> -->
+                            
+                        
+
+                            <span class="float-end"> 
+                            <span class="spinner-grow spinner-grow-sm me-2 text-danger" role="status"
+                                      aria-hidden="true">
+                            </span>Live</span>
+
+                        </div>
+
+
+                        <div class="" id="dataTable" style="width:100%; overflow: auto;">
+
+                            <table class="table table-bordered" style="width:100%; overflow: auto;">
+                                 <thead style="text-align: center;">
+                                    <tr>
+                                        <th scope="col">
+                                            <b>SNo.</b>
+                                        </th>
+
+
+                                        <th scope="col">
+                                            <b><fa-icon icon="video" class="font-custome me-1"></fa-icon>
+                                                Video</b>
+                                            </th>
+
+
+                                        
+                                        <th scope="col">   
+                                                <!-- <fa-icon icon="camera-retro" class="font-custome me-1"></fa-icon> -->
+                                                <b><fa-icon icon="triangle-exclamation" class="me-2"></fa-icon>
+                                                    Violation Details</b>
+                                                
+                                         </th>
+
+                                        <th scope="col">
+                                            <b>
+                                                <fa-icon icon="camera-retro" class="font-custome me-1"></fa-icon>Camera Name
+                                            </b>
+                                        </th>
+                                        <!-- <th scope="col"><b>
+                                                 <fa-icon icon="laptop" class="font-custome me-1"></fa-icon>Device Name
+                                            </b></th> -->
+        
+                                        <th scope="col">
+                                            <b>
+                                                <fa-icon icon="clock" class="font-custome me-1"></fa-icon>
+                                                Detected Time
+                                            </b>
+                                        </th>
+                                        <!-- <th scope="col"><b>
+                                            <fa-icon icon="clock" class="font-custome me-1"></fa-icon>Exit Time
+                                        </b></th> -->
+        
+                                        <!-- <th *ngIf="isEditTable" scope="col">
+                                            Is Valid?
+                                        </th> -->
+        
+        
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr>
+                                        <td scope="col">
+
+                                        </td>
+                                        
+                                    
+                                        <td scope="col">
+                                            <video width="320" controls >
+                                                <source src = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"  type="video/mp4">
+                                                <!-- <iframe width="560" height="315" src="https://www.youtube.com/embed/WrQwVqN6Jlo" frameborder="0" allowfullscreen></iframe> -->
+
+                                            </video>
+                                        </td>
+
+                                        <td scope="col">
+
+                                        </td>
+
+                                        <td scope="col">
+
+                                        </td>
+
+                                        <td scope="col">
+
+                                        </td>
+
+                                        <!-- <td scope="col">
+
+                                        </td> -->
+                                        
+                                        
+                                        
+                                        
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        
+                    </div>
+               </div>
+            </div>
+        </div>
+    </div>
+</div>
+
